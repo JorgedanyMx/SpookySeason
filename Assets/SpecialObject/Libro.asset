@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154004178558e55449fd003a470bedd2, type: 3}
+  m_Name: Libro
+  m_EditorClassIdentifier: 
+  nameObject: Libro
+  image: {fileID: 21300000, guid: cab739b497a695c4383410da534bb907, type: 3}
+  primerMensaje: Ya no recuerdo que dice
+  ultimoMensaje: Los recuerdos que habia perdido ya lo puedo ver
+  model: {fileID: 2873333675346516092, guid: 10c5f2280d4c9ec48b986ba503b29f27, type: 3}
