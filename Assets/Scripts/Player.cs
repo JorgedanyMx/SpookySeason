@@ -1,35 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.AI;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 5f;       // Velocidad de movimiento
-    public float rotationSpeed = 10f;  // Velocidad de giro (mayor = más rápido)
+    public bool AlterMov =true;
+    private NavMeshAgent agent;
+    [SerializeField] private LayerMask groundLayer;
+
+    void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     void Update()
     {
-        // Leer input
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-
-        // Vector de movimiento
-        Vector3 direction = new Vector3(moveX, 0f, moveZ).normalized;
-
-        // Si hay movimiento...
-        if (direction.magnitude >= 0.1f)
+        if (Input.GetMouseButtonDown(0))
         {
-            // Calcular ángulo de rotación objetivo
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            // Cancela la velocidad actual
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+        }
 
-            // Crear rotación suave hacia el objetivo
-            Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
+        if (Input.GetMouseButton(0))
+        {
+            MoveToMousePosition();
+        }
 
-            // Aplicar rotación interpolada
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            // Mover hacia adelante en la dirección actual (ya rotada)
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+    }
+    private void MoveToMousePosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundLayer))
+        {
+            if (NavMesh.SamplePosition(hit.point, out NavMeshHit navHit, 1.0f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(navHit.position);
+            }
         }
     }
+
 }
